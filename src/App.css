@@ -24,12 +24,12 @@ a:hover{
 }
 
 .navbar{
-    flex: 0.2;
+    flex: 0.1;
     background-color: rgb(28, 150, 144);
 }
 
 .main{
-    flex: 0.8;
+    flex: 0.9;
     width: 100%;
     
 }
