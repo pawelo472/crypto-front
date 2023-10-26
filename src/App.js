@@ -3,41 +3,24 @@ import {Layout, Typography, Space, Statistic} from 'antd';
 
 import {Navbar, Homepage, Cryptocurrencies, CryptoDetails, Aboutus,Login} from './components';
 import './App.css';
-//import React, { useEffect, useState } from 'react';
-//import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useGetServerTimeQuery } from './services/CryptoApi';
 
-// const BinanceAPI = () => {
-//     const [timeData, setTimeData] = useState(null);
-
-//   useEffect(() => {
-//     const apiUrl = 'https://api.binance.com/api/v3/time';
-
-    
-//     axios
-//       .get(apiUrl)
-//       .then((response) => {
-//         setTimeData(response.data);
-//       })
-//       .catch((error) => {
-//         console.error('Błąd API:', error);
-//       });
-//   }, []);
-
-  
-//   return (
-//     <div>
-//       {timeData && (
-//         <div>
-//           <p>Server Time: {new Date(timeData.serverTime).toString()}</p>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
 const App = () => {
-  const { data, isFetching } = useGetServerTimeQuery();
+  const { data, isFetching, refetch } = useGetServerTimeQuery();
   const formattedTime = data ? new Date(data.serverTime).toString() : 'Loading...';
+  // Function to fetch data every second
+  const fetchDataEverySecond = () => {
+    refetch();
+  };
+
+  useEffect(() => {
+    // Start fetching data every second when the component mounts
+    const interval = setInterval(fetchDataEverySecond, 3000);
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []); // Empty dependency array to run this effect only once when the component mounts
   return (
     <div className="app">
         <div className='navbar'>
@@ -53,7 +36,7 @@ const App = () => {
               <Route exact path='/cryptocurrencies'>
                 <Cryptocurrencies/>
               </Route>
-              <Route exact path='/crypto/:cryptoID'>
+              <Route exact path='/crypto/:symbol'>
                 <CryptoDetails/>
               </Route>
               <Route exact path='/aboutus'>

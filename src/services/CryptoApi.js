@@ -17,30 +17,14 @@ export const binanceApi = createApi({
     getCryptos: builder.query({
       query: () => createRequest('ticker/price'),
     }),
+    getCryptosDetails: builder.query({
+      query: () => createRequest('/ticker/24hr'),
+    }),
   }),
 });
 
 export const {
   useGetServerTimeQuery,
   useGetCryptosQuery,
+  useGetCryptosDetailsQuery,
 } = binanceApi;
-
-// Dodaj hook do odświeżania danych co sekundę
-export const useAutoRefresh = (queryHook, interval = 1000) => {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await queryHook();
-      setData(result.data);
-    };
-
-    const intervalId = setInterval(fetchData, interval);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [queryHook, interval]);
-
-  return data;
-};

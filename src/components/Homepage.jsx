@@ -13,7 +13,7 @@ export const Homepage = () => {
     <>
       <Title level={2}>Home</Title>
       <div style={{ padding: '20px' }}>
-      <Title level={2}>Witaj na Stronie Kryptowalut</Title>
+      <Title level={2}>Witaj na Stronie Crypto</Title>
       <Typography.Paragraph>
         Ta strona ma na celu ułatwienie początkującym inwestorom w zakupie i śledzeniu kryptowalut.
       </Typography.Paragraph>
