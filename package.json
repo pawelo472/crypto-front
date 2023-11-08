@@ -22,7 +22,8 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "5.0.1",
     "redux-saga": "^1.2.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zxcvbn": "^4.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
