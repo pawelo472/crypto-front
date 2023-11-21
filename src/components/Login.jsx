@@ -1,8 +1,35 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col, Typography, Progress, Card } from 'antd';
 import zxcvbn from 'zxcvbn';
+import { useRegisterUserMutation } from '../services/CryptoApi';
+import axios from "axios";
 
 function Login() {
+
+  const [username, setRegUserename] = useState('');
+  const [email, setRegEmail] = useState('');
+  const [password, setRegPassword] = useState('');
+  const [apikey, setapiKey] = useState('');
+
+  const [registerUser, { isLoading, isError }] = useRegisterUserMutation();
+
+  async function save(event) {
+    event.preventDefault();
+    try {
+      const response = await registerUser({
+        username,
+        password,
+        email,
+        apikey,
+      });
+      // handle successful response
+      alert('User Registration Successful');
+    } catch (err) {
+      // handle error
+      alert(err);
+    }
+  }
+  
   const [passwordStrength, setPasswordStrength] = useState(0);
 
   const onFinish = (values) => {
@@ -67,6 +94,11 @@ function Login() {
                 label="Username"
                 name="regUsername"
                 rules={[{ required: true, message: 'Please input your username!' }]}
+
+                value={username}
+                onChange={(event) => {
+                  setRegUserename(event.target.value);
+                }}
               >
                 <Input />
               </Form.Item>
@@ -75,6 +107,11 @@ function Login() {
                 label="Password"
                 name="regPassword"
                 rules={[{ required: true, message: 'Please input your password!' }]}
+
+                value={password}
+                onChange={(event) => {
+                  setRegPassword(event.target.value);
+                }}
               >
                 <Input.Password onChange={handlePasswordChange} />
               </Form.Item>
@@ -86,6 +123,11 @@ function Login() {
                   { required: true, message: 'Please input your email!' },
                   { type: 'email', message: 'Please enter a valid email address' },
                 ]}
+
+                value={email}
+                onChange={(event) => {
+                  setRegEmail(event.target.value);
+                }}
               >
                 <Input />
               </Form.Item>
@@ -94,6 +136,11 @@ function Login() {
                 label="API Key"
                 name="apiKey"
                 rules={[{ required: true, message: 'Please input your API Key!' }]}
+
+                value={apikey}
+                onChange={(event) => {
+                  setapiKey(event.target.value);
+                }}
               >
                 <Input />
               </Form.Item>
@@ -109,7 +156,7 @@ function Login() {
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" onClick={save}>
                   Register
                 </Button>
               </Form.Item>
@@ -122,3 +169,4 @@ function Login() {
 }
 
 export default Login;
+

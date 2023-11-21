@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import {binanceApi} from '../services/CryptoApi';
+import {binanceApi,register} from '../services/CryptoApi';
 export default configureStore({
-    reducer:{[binanceApi.reducerPath]:binanceApi.reducer,},
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(binanceApi.middleware),
+    reducer:{[binanceApi.reducerPath]:binanceApi.reducer,[register.reducerPath]:register.reducer,},
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(binanceApi.middleware,register.middleware),
 });
 

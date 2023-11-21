@@ -5,6 +5,7 @@ const binanceApiHeaders = {
   //'content-type': 'application/json',
 };
 
+
 const createRequest = (url) => ({ url, headers: binanceApiHeaders });
 
 export const binanceApi = createApi({
@@ -23,8 +24,30 @@ export const binanceApi = createApi({
   }),
 });
 
+
+
 export const {
   useGetServerTimeQuery,
   useGetCryptosQuery,
   useGetCryptosDetailsQuery,
 } = binanceApi;
+
+export const register = createApi({
+  reducerPath: 'register',
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8085/api/v1/' }),
+  endpoints: (builder) => ({
+    registerUser: builder.mutation({
+      query: (user) => ({
+        url: 'user/save',
+        method: 'POST',
+        body: user,
+      }),
+    }),
+  }),
+});
+
+export const {
+  reducer,
+  middleware,
+  useRegisterUserMutation,
+} = register;

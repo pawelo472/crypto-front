@@ -7,6 +7,8 @@ import React, { useEffect, useState } from 'react';
 import { useGetServerTimeQuery } from './services/CryptoApi';
 
 const App = () => {
+  
+  
   const { data, isFetching, refetch } = useGetServerTimeQuery();
   const formattedTime = data ? new Date(data.serverTime).toString() : 'Loading...';
   // Function to fetch data every second
