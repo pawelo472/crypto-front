@@ -1,50 +1,89 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col, Typography, Progress, Card } from 'antd';
-import zxcvbn from 'zxcvbn';
-import { useRegisterUserMutation } from '../services/CryptoApi';
+import { useLoginUserMutation } from '../services/CryptoApi';
+import { useDispatch } from 'react-redux';
+import { setUser, setError } from './authSlice';
 import axios from "axios";
-
+import { useHistory } from 'react-router-dom';
 function Login() {
 
-  const [username, setRegUserename] = useState('');
-  const [email, setRegEmail] = useState('');
-  const [password, setRegPassword] = useState('');
-  const [apikey, setapiKey] = useState('');
-
-  const [registerUser, { isLoading, isError }] = useRegisterUserMutation();
-
-  async function save(event) {
-    event.preventDefault();
-    try {
-      const response = await registerUser({
-        username,
-        password,
-        email,
-        apikey,
-      });
-      // handle successful response
-      alert('User Registration Successful');
-    } catch (err) {
-      // handle error
-      alert(err);
-    }
-  }
+    // const [loginUser, { isLoading, isError }] = useLoginUserMutation();
+    // const dispatch = useDispatch();
   
-  const [passwordStrength, setPasswordStrength] = useState(0);
+    // const [username, setUsername] = useState('');
+    // const [password, setPassword] = useState('');
+  
+    // async function login(event) {
+    //   event.preventDefault();
+    //   try {
+    //     const response = await loginUser, {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify({
+    //         username: username,
+    //         password: password,
+    //       }),
+    //     });
+  
+    //     const data = await response.json();
+  
+    //     console.log(data);
+  
+    //     if (data.message === 'Email not exists') {
+    //       dispatch(setError('Email not exists'));
+    //     } else if (data.message === 'Login Success') {
+    //       dispatch(setUser(data.user));
+    //       navigator('/');
+    //     } else {
+    //       dispatch(setError('Incorrect Email and Password not match'));
+    //     }
+    //   } catch (err) {
+    //     console.error(err);
+    //     dispatch(setError('An error occurred'));
+    //   }
+    
+    
+    const history = useHistory();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    async function login(event) {
+        event.preventDefault();
+        try {
+          await axios.post("http://localhost:8085/api/v1/user/login", {
+            username: username,
+            password: password,
+            }).then((res) => 
+            {
+             console.log(res.data);
+             
+             if (res.data.message == "Email not exits") 
+             {
+               alert("Email not exits");
+             } 
+             else if(res.data.message == "Login Success")
+             { 
+                
+                history.push('/');
+                
+             } 
+              else 
+             { 
+                alert("Incorrect Email and Password not match");
+             }
+          }, fail => {
+           console.error(fail); // Error!
+  });
+        }
+ 
+         catch (err) {
+          alert(err);
+        }
+      
+      }
 
-  const onFinish = (values) => {
-    console.log('Login form values:', values);
-  };
-
-  const onFinishRegistration = (values) => {
-    console.log('Registration form values:', values);
-  };
-
-  const handlePasswordChange = (e) => {
-    const password = e.target.value;
-    const result = zxcvbn(password);
-    setPasswordStrength(result.score);
-  };
+  
 
   return (
     <div>
@@ -54,7 +93,6 @@ function Login() {
           <Card title="Login">
             <Form
               name="login"
-              onFinish={onFinish}
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 16 }}
             >
@@ -62,6 +100,11 @@ function Login() {
                 label="Username"
                 name="username"
                 rules={[{ required: true, message: 'Please input your username!' }]}
+
+                value={username}
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                }}
               >
                 <Input />
               </Form.Item>
@@ -70,94 +113,18 @@ function Login() {
                 label="Password"
                 name="password"
                 rules={[{ required: true, message: 'Please input your password!' }]}
+
+                value={password}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
               >
                 <Input.Password />
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" onClick={login}>
                   Login
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-        </Col>
-        <Col span={12}>
-          <Card title="Registration">
-            <Form
-              name="registration"
-              onFinish={onFinishRegistration}
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-            >
-              <Form.Item
-                label="Username"
-                name="regUsername"
-                rules={[{ required: true, message: 'Please input your username!' }]}
-
-                value={username}
-                onChange={(event) => {
-                  setRegUserename(event.target.value);
-                }}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="regPassword"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-
-                value={password}
-                onChange={(event) => {
-                  setRegPassword(event.target.value);
-                }}
-              >
-                <Input.Password onChange={handlePasswordChange} />
-              </Form.Item>
-
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                  { required: true, message: 'Please input your email!' },
-                  { type: 'email', message: 'Please enter a valid email address' },
-                ]}
-
-                value={email}
-                onChange={(event) => {
-                  setRegEmail(event.target.value);
-                }}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="API Key"
-                name="apiKey"
-                rules={[{ required: true, message: 'Please input your API Key!' }]}
-
-                value={apikey}
-                onChange={(event) => {
-                  setapiKey(event.target.value);
-                }}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                wrapperCol={{ span: 24 }}
-                label="Password Strength"
-              >
-                <Progress
-                  percent={passwordStrength * 25}
-                  status={passwordStrength === 4 ? 'success' : 'active'}
-                />
-              </Form.Item>
-
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit" onClick={save}>
-                  Register
                 </Button>
               </Form.Item>
             </Form>
@@ -167,6 +134,5 @@ function Login() {
     </div>
   );
 }
-
 export default Login;
 

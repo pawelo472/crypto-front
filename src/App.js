@@ -1,7 +1,7 @@
 import { Switch, Route, Link } from 'react-router-dom';
 import {Layout, Typography, Space, Statistic} from 'antd';
 
-import {Navbar, Homepage, Cryptocurrencies, CryptoDetails, Aboutus,Login} from './components';
+import {Navbar, Homepage, Cryptocurrencies, CryptoDetails, Aboutus,Register,Login} from './components';
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import { useGetServerTimeQuery } from './services/CryptoApi';
@@ -43,6 +43,9 @@ const App = () => {
               </Route>
               <Route exact path='/aboutus'>
                 <Aboutus/>
+              </Route>
+              <Route exact path='/register'>
+                <Register/>
               </Route>
               <Route exact path='/login'>
                 <Login/>
