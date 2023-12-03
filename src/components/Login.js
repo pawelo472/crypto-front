@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,fetchData,useEffect, forceUpdate} from 'react';
 import { Form, Input, Button, Row, Col, Typography, Progress, Card , notification} from 'antd';
 import { useLoginUserMutation } from '../services/CryptoApi';
 import { useDispatch } from 'react-redux';
@@ -6,7 +6,8 @@ import { setUser, setError } from './authSlice';
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-//import { request, setAuthHeader } from './axios_helper';
+import { request, setAuthHeader } from './axios_helper';
+import Navbar from './Navbar';
 
 
     // const [loginUser, { isLoading, isError }] = useLoginUserMutation();
@@ -86,6 +87,8 @@ import classNames from 'classnames';
   //     }
  
   function Login() {
+
+  
     const openNotification = (type, message) => {
       notification[type]({
         message: message,
@@ -97,30 +100,7 @@ import classNames from 'classnames';
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const getAuthToken = () => {
-      return window.localStorage.getItem('auth_token');
-    };
-    
-    const setAuthHeader = (token) => {
-      window.localStorage.setItem('auth_token', token);
-    };
-    
-    axios.defaults.baseURL = 'http://localhost:8085';
-    axios.defaults.headers.post['Content-Type'] = 'application/json';
-    
-     const request = (method, url, data) => {
-    
-      let headers = {};
-      if (getAuthToken() !== null && getAuthToken() !== "null") {
-          headers = {'Authorization': `Bearer ${getAuthToken()}`};
-      }
-    
-      return axios({
-          method: method,
-          url: url,
-          headers: headers,
-          data: data});
-    };
+
 
 
    const LoginUser = (username, password) => {
@@ -135,7 +115,9 @@ import classNames from 'classnames';
               setAuthHeader(response.data.token);
               dispatch(setUser(response.data.username));
               openNotification('success', 'Logged in successfully: '+ response.data.username);
-        history.push('/');
+            
+        //history.push('/');
+       // window.location.reload();
           }).catch(
           (error) => {
               setAuthHeader(null);
@@ -201,7 +183,7 @@ import classNames from 'classnames';
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" >
                   Login
                 </Button>
               </Form.Item>

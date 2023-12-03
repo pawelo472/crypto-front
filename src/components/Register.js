@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { setUser, setError } from './authSlice';
 import { useRegisterUserMutation } from '../services/CryptoApi';
 import axios from "axios";
+import { request, setAuthHeader } from './axios_helper';
 
 function Register() {
   const openNotification = (type, message) => {
@@ -22,30 +23,7 @@ function Register() {
   const [password, setRegPassword] = useState('');
   const [apikey, setapiKey] = useState('');
 
-  const getAuthToken = () => {
-    return window.localStorage.getItem('auth_token');
-  };
   
-  const setAuthHeader = (token) => {
-    window.localStorage.setItem('auth_token', token);
-  };
-  
-  axios.defaults.baseURL = 'http://localhost:8085';
-  axios.defaults.headers.post['Content-Type'] = 'application/json';
-  
-  const request = (method, url, data) => {
-  
-    let headers = {};
-    if (getAuthToken() !== null && getAuthToken() !== "null") {
-        headers = {'Authorization': `Bearer ${getAuthToken()}`};
-    }
-  
-    return axios({
-        method: method,
-        url: url,
-        headers: headers,
-        data: data});
-  };
   // const [registerUser, { isLoading, isError }] = useRegisterUserMutation();
 
   // async function save(event) {
