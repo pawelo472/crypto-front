@@ -1,13 +1,28 @@
 import { Switch, Route, Link } from 'react-router-dom';
 import {Layout, Typography, Space, Statistic} from 'antd';
 
-import {Navbar, Homepage, Cryptocurrencies, CryptoDetails, Aboutus,Register,Login} from './components';
+import {Navbar, Homepage, Cryptocurrencies, CryptoDetails, Aboutus,Register,Login, Wallet} from './components';
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import { useGetServerTimeQuery } from './services/CryptoApi';
+import { setAuthHeader, getAuthToken } from './components/axios_helper';
 
 const App = () => {
   
+  const [isLoggedIn, setLoggedIn] = useState(false);
+    const [isLoggedOut, setLoggedOut] = useState(true);
+  useEffect(() => {
+    const checkAuth = async () => {
+      const authToken = getAuthToken();
+      if (authToken) {
+        setAuthHeader(authToken);
+        setLoggedIn(true);
+        setLoggedOut(false)
+      }
+    };
+
+    checkAuth();
+  }, []);
   
   const { data, isFetching, refetch } = useGetServerTimeQuery();
   const formattedTime = data ? new Date(data.serverTime).toString() : 'Loading...';
@@ -38,18 +53,27 @@ const App = () => {
               <Route exact path='/cryptocurrencies'>
                 <Cryptocurrencies/>
               </Route>
+              {isLoggedIn && (
+              <Route exact path='/wallet'>
+                <Wallet/>
+              </Route>
+              )}
               <Route exact path='/crypto/:symbol'>
                 <CryptoDetails/>
               </Route>
               <Route exact path='/aboutus'>
                 <Aboutus/>
               </Route>
+              {isLoggedOut && (
               <Route exact path='/register'>
                 <Register/>
               </Route>
+              )}
+              {isLoggedOut && (
               <Route exact path='/login'>
                 <Login/>
               </Route>
+              )}
             </switch>
           </div>
         </Layout>

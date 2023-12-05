@@ -1,6 +1,6 @@
-import React, { useState ,fetchData,useEffect, forceUpdate} from 'react';
+import React, { useState} from 'react';
 import { Form, Input, Button, Row, Col, Typography, Progress, Card , notification} from 'antd';
-import { useLoginUserMutation } from '../services/CryptoApi';
+
 import { useDispatch } from 'react-redux';
 import { setUser, setError } from './authSlice';
 import axios from "axios";
@@ -116,8 +116,8 @@ import Navbar from './Navbar';
               dispatch(setUser(response.data.username));
               openNotification('success', 'Logged in successfully: '+ response.data.username);
             
-        //history.push('/');
-       // window.location.reload();
+        // history.push('/');
+        // window.location.reload();
           }).catch(
           (error) => {
               setAuthHeader(null);

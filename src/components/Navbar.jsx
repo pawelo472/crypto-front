@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import { HomeOutlined,UserOutlined, FundOutlined,  InfoCircleOutlined, UserAddOutlined } from '@ant-design/icons';
 import icon from "../images/logo.png";
 import { setAuthHeader, getAuthToken } from './axios_helper';
+import { useHistory } from 'react-router-dom';
 const Navbar = () => {
-    
+
+  const history = useHistory();
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [isLoggedOut, setLoggedOut] = useState(true);
   useEffect(() => {
@@ -25,6 +27,7 @@ const Navbar = () => {
     setAuthHeader(null);
     setLoggedIn(false);
     window.localStorage.removeItem('auth_token');
+    history.push('/');
     window.location.reload();
   };
   return (
@@ -39,22 +42,31 @@ const Navbar = () => {
             <Menu.Item icon={<HomeOutlined/>}>
                 <Link to="/">Home</Link>
             </Menu.Item>
+
             <Menu.Item icon={<FundOutlined/>}>
                 <Link to="/cryptocurrencies">Cryptocurrencies</Link>
             </Menu.Item>
+            {isLoggedIn && (
+            <Menu.Item icon={<FundOutlined/>}>
+                <Link to="/wallet">Wallet</Link>
+            </Menu.Item>
+            )}
             {isLoggedOut && (
             <Menu.Item icon={<UserAddOutlined/>}>
                 <Link to="/register">Register</Link>
             </Menu.Item>
             )}
+
             {isLoggedOut && (
             <Menu.Item icon={<UserOutlined/>}>
                 <Link to="/login">Login</Link>
             </Menu.Item>
              )}
+
             <Menu.Item icon={<InfoCircleOutlined/>}>
                 <Link to="/aboutus">About Us</Link>
             </Menu.Item>
+
             {isLoggedIn && (
           <Menu.Item>
             <Button onClick={handleLogout}>Logout</Button>
