@@ -1,27 +1,27 @@
 import React, { useState, useEffect} from 'react';
 import { Form, Input, Button, Row, Col, Typography, Progress, Card , notification} from 'antd';
 import axios from "axios";
+import { useGetWalletQuery, useGetServerTimeQuery} from '../services/CryptoApi';
 const CryptoJS = require('crypto-js');
 
 
  
   function Wallet() {
-    
-    const time_server=Date.now();
-    //console.log(time_server);
-   // const payload = time_server + "\n" + nonce + "\n" + body + "\n";
-    let apiPublic="q1pQetgeBRA3WDaaWVOQM68oYTDWB8mMO9ATg8Lpp74r91KOCHozNeU0RxecULLz";
+    const { data:godzina} = useGetServerTimeQuery();
+  const time_server=Date.now();
+    const apiPublic='q1pQetgeBRA3WDaaWVOQM68oYTDWB8mMO9ATg8Lpp74r91KOCHozNeU0RxecULLz';
     const apiSecret= 'cjvelBcWP05hZw6e5UttMzKGqrspYLphfx6Q7LZv0up3sE9QyTjgUk6fvwqcjo36';
     const signature = CryptoJS.HmacSHA256(`timestamp=${time_server}`, apiSecret).toString(CryptoJS.enc.Hex);
     axios.defaults.baseURL = 'https://api.binance.com';
-    axios.defaults.headers['X-MBX-APIKEY'] = apiPublic;
+    
     const request = (method, url, data) => {
     
-        let headers = {};
         return axios({
             method: method,
             url: url,
-            headers: headers,
+            headers: {
+              "X-MBX-APIKEY": apiPublic,
+          },
             data: data,
             params: {
                 timestamp: time_server,
@@ -29,7 +29,6 @@ const CryptoJS = require('crypto-js');
             },
         });
     };
-  
     const WalletUser = () => {
         request(
             "GET",
@@ -38,7 +37,7 @@ const CryptoJS = require('crypto-js');
             
             }).then(
             (response) => {
-                 
+              console.log(response.data);
           // history.push('/');
           // window.location.reload();
             }).catch(
@@ -48,9 +47,14 @@ const CryptoJS = require('crypto-js');
         );
     };
 
-
+// const { data: wallet} = useGetWalletQuery();
+//   console.log(wallet);
+  
     useEffect(() => {
         WalletUser();
+        
+
+    
       }, []); 
   
 
