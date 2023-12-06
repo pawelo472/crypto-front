@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import  {Button, Menu, Typography, Avatar} from 'antd';
 import { Link } from 'react-router-dom';
-import { HomeOutlined,UserOutlined, FundOutlined,  InfoCircleOutlined, UserAddOutlined } from '@ant-design/icons';
+import { HomeOutlined,UserOutlined, FundOutlined,  InfoCircleOutlined, UserAddOutlined, WalletOutlined, LogoutOutlined } from '@ant-design/icons';
 import icon from "../images/logo.png";
 import { setAuthHeader, getAuthToken } from './axios_helper';
 import { useHistory } from 'react-router-dom';
@@ -47,7 +47,7 @@ const Navbar = () => {
                 <Link to="/cryptocurrencies">Cryptocurrencies</Link>
             </Menu.Item>
             {isLoggedIn && (
-            <Menu.Item icon={<FundOutlined/>}>
+            <Menu.Item icon={<WalletOutlined/>}>
                 <Link to="/wallet">Wallet</Link>
             </Menu.Item>
             )}
@@ -68,7 +68,7 @@ const Navbar = () => {
             </Menu.Item>
 
             {isLoggedIn && (
-          <Menu.Item>
+          <Menu.Item icon={<LogoutOutlined />}>
             <Button onClick={handleLogout}>Logout</Button>
           </Menu.Item>
         )}

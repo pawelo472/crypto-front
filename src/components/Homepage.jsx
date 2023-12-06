@@ -1,18 +1,14 @@
-//import millify from 'millify';
-//import { Link } from 'react-router-dom';
 import React from 'react';
-import { Typography, Row, Col, Statistic } from 'antd';
-//import { useGetServerTimeQuery } from '../services/CryptoApi';
+import { Typography} from 'antd';
+import '../App.css';
 
 const { Title } = Typography;
 export const Homepage = () => {
-  // const { data, isFetching } = useGetServerTimeQuery();
-  // const formattedTime = data ? new Date(data.serverTime).toString() : 'Loading...';
 
   return (
     <>
       <Title level={2}>Home</Title>
-      <div style={{ padding: '20px' }}>
+      <div style={{ padding: '20px'}} className='home'>
       <Title level={2}>Witaj na Stronie Crypto</Title>
       <Typography.Paragraph>
         Ta strona ma na celu ułatwienie początkującym inwestorom w zakupie i śledzeniu kryptowalut.
@@ -28,7 +24,7 @@ export const Homepage = () => {
         </li>
         <li>
           <Typography.Text>
-            2. Do działania na naszej stronie będzie potrzebny klucz API Binance, który uzyskamy na stronie: <a href="https://www.binance.com/pl/binance-api" target="_blank">https://www.binance.com/pl/binance-api</a>, po ówczesnym zalogowaniu.
+            2. Do działania na naszej stronie będzie potrzebny klucz API Binance oraz Secret API Key, który uzyskamy na stronie: <a href="https://www.binance.com/pl/binance-api" target="_blank">https://www.binance.com/pl/binance-api</a>, po ówczesnym zalogowaniu.
           </Typography.Text>
         </li>
         <li>

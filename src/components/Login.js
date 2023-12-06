@@ -1,13 +1,10 @@
 import React, { useState} from 'react';
-import { Form, Input, Button, Row, Col, Typography, Progress, Card , notification} from 'antd';
-
+import { Form, Input, Button, Row, Col, Typography, Card , notification} from 'antd';
 import { useDispatch } from 'react-redux';
-import { setUser, setError } from './authSlice';
-import axios from "axios";
+import { setUser} from './authSlice';
 import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
 import { request, setAuthHeader } from './axios_helper';
-import Navbar from './Navbar';
+
 
 
     // const [loginUser, { isLoading, isError }] = useLoginUserMutation();
@@ -115,9 +112,10 @@ import Navbar from './Navbar';
               setAuthHeader(response.data.token);
               dispatch(setUser(response.data.username));
               openNotification('success', 'Logged in successfully: '+ response.data.username);
-            
-        // history.push('/');
-        // window.location.reload();
+              setTimeout(() => {
+                history.push('/');
+                window.location.reload();
+              }, 2000);
           }).catch(
           (error) => {
               setAuthHeader(null);

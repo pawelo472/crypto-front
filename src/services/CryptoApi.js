@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { useEffect, useState } from 'react';
 const CryptoJS = require('crypto-js');
 
 const recvWindow = 60000;

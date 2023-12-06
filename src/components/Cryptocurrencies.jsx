@@ -78,7 +78,7 @@ export const Cryptocurrencies = () => {
               return (
                 <Col xs={24} sm={12} lg={6} key={crypto.symbol} className="crypto-card">
                   <Link to={`/crypto/${crypto.symbol}`}>
-                    <Card title={crypto.symbol.replace("USDT", "")}>
+                    <Card  style={{ border: '1px solid black'}} title={crypto.symbol.replace("USDT", "")}>
                       <p>Price: <Statistic value={`${parseFloat(crypto.price).toFixed(4)} USDT`} /></p>
                       <p>Price change 24h: <Statistic value={`${cryptoDetails.priceChangePercent} %`} /></p>
                     </Card>

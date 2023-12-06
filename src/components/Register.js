@@ -3,9 +3,7 @@ import { Form, Input, Button, Row, Col, Typography, Progress, Card, notification
 import zxcvbn from 'zxcvbn';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setUser, setError } from './authSlice';
-import { useRegisterUserMutation } from '../services/CryptoApi';
-import axios from "axios";
+import { setUser} from './authSlice';
 import { request, setAuthHeader } from './axios_helper';
 
 function Register() {
@@ -22,6 +20,7 @@ function Register() {
   const [email, setRegEmail] = useState('');
   const [password, setRegPassword] = useState('');
   const [apikey, setapiKey] = useState('');
+  const [secretapikey, setsecretapiKey] = useState('');
 
   
   // const [registerUser, { isLoading, isError }] = useRegisterUserMutation();
@@ -60,6 +59,7 @@ function Register() {
             password: password,
             email: email,
             apikey: apikey,
+            secretapikey: secretapikey,
         }).then(
         (response) => {
             setAuthHeader(response.data.token);
@@ -159,6 +159,20 @@ function Register() {
                 value={apikey}
                 onChange={(event) => {
                   setapiKey(event.target.value);
+                }}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Secret API Key"
+                name="secretapikey"
+                rules={[{ required: true, message: 'Please input your API Key!'},
+                { len: 64, message: 'API Key must be exactly 64 characters long!' },
+              ]}
+              //onChange={onChangeHandler}
+                value={secretapikey}
+                onChange={(event) => {
+                  setsecretapiKey(event.target.value);
                 }}
               >
                 <Input />

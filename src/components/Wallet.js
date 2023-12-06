@@ -1,8 +1,7 @@
 import React, { useState, useEffect} from 'react';
-import { Form, Input, Button, Row, Col, Typography, Progress, Card , notification,Space, Table} from 'antd';
+import { Input,Typography,Space, Table, Tooltip} from 'antd';
 import axios from "axios";
-import { useGetWalletQuery, useGetServerTimeQuery} from '../services/CryptoApi';
-import { Link } from 'react-router-dom';
+
 import '../App.css';
 const CryptoJS = require('crypto-js');
 
@@ -75,34 +74,58 @@ const CryptoJS = require('crypto-js');
 
     const columns = [
       {
-        title: 'Coin',
+        title: (
+          <span>
+            <Tooltip title="This is the Coin name.">
+              <span>Coin</span>
+            </Tooltip>
+          </span>
+        ),
         dataIndex: 'coin',
         key: 'coin',
         //render: (text, record) => <Link to={`/crypto/${record.coin}USDT`}>{text}</Link>,
+        sorter: (a, b) => a.coin.localeCompare(b.coin),
       },
       {
-        title: 'Deposit All Enable',
+        title: (
+          <span>
+            <Tooltip title="This column indicates whether deposit all is enabled or not.">
+              <span>Deposit All Enable</span>
+            </Tooltip>
+            
+          </span>
+        ),
         dataIndex: 'depositAllEnable',
         key: 'depositAllEnable',
         render: (text) => text.toString(),
+        
       },
       {
-        title: 'Free',
+        title: (
+          <span>
+            <Tooltip title="This is the Free Coins column.">
+              <span>Free Coins</span>
+            </Tooltip>
+          
+          </span>
+        ),
         dataIndex: 'free',
         key: 'free',
         sorter: (a, b) => a.free - b.free, // Add this line for sorting
         //sortOrder: 'descend', // Add this line for default descending order
       },
       {
-        title: 'Freeze',
+        title: (
+          <span>
+            <Tooltip title="This is the Freeze column.">
+              <span>Freeze</span>
+            </Tooltip>
+          
+          </span>
+        ),
         dataIndex: 'freeze',
         key: 'freeze',
         sorter: (a, b) => a.freeze - b.freeze,
-      },
-      {
-        title: 'Ipoable',
-        dataIndex: 'ipoable',
-        key: 'ipoable',
       },
     ];
   
@@ -114,7 +137,7 @@ const CryptoJS = require('crypto-js');
         <Title level={2}>Wallet</Title>
         <Space style={{ marginBottom: '16px' }}>
           <Input
-            placeholder="Search Cryptocurrency"
+            placeholder="Search COIN"
             onChange={(e) => setSearchKeyword(e.target.value)}
           />
         </Space>

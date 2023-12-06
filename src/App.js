@@ -1,4 +1,4 @@
-import { Switch, Route, Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import {Layout, Typography, Space, Statistic} from 'antd';
 
 import {Navbar, Homepage, Cryptocurrencies, CryptoDetails, Aboutus,Register,Login, Wallet} from './components';
@@ -24,7 +24,7 @@ const App = () => {
     checkAuth();
   }, []);
   
-  const { data, isFetching, refetch } = useGetServerTimeQuery();
+  const { data, refetch } = useGetServerTimeQuery();
   const formattedTime = data ? new Date(data.serverTime).toString() : 'Loading...';
   // Function to fetch data every second
   const fetchDataEverySecond = () => {
@@ -79,16 +79,15 @@ const App = () => {
         </Layout>
         
         <div className='footer'>
-          <Typography.Title level={4} style={{color:'white', textAlign:'center'}}>
-            Crypto <br/>
-            All right reserved
-          </Typography.Title>
+          <Typography.Text >
+            Crypto All right reserved
+          </Typography.Text>
           <Space>
             <Link to="/">Home</Link>
             <Link to="/cryptocurrencies">Cryptocurrencies</Link>
             <Link to="/aboutus">Aboutus</Link>
           </Space>
-          <Statistic title="Server Time" value={formattedTime} style={{ color: 'white', textAlign: 'center' }}></Statistic>
+          <Typography.Text  value={formattedTime} style={{ color: 'black', textAlign: 'center', fontSize: '20px', }}>{formattedTime}</Typography.Text>
 
 
           </div>
