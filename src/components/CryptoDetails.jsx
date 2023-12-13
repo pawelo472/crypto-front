@@ -4,11 +4,28 @@ import { useGetCryptosDetailsQuery, useGetCryptosQuery } from '../services/Crypt
 import '../App.css';
 import millify from 'millify';
 import reactRouterDom, { Link, useParams } from 'react-router-dom';
+import { setAuthHeader, getAuthToken } from './axios_helper';
 import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCircleOutlined, StopOutlined, TrophyOutlined, CheckOutlined, NumberOutlined, ThunderboltOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
 const CryptoDetails = () => {
+
+  const [isLoggedIn, setLoggedIn] = useState(false);
+    const [isLoggedOut, setLoggedOut] = useState(true);
+  useEffect(() => {
+    const checkAuth = async () => {
+      const authToken = getAuthToken();
+      if (authToken) {
+        setAuthHeader(authToken);
+        setLoggedIn(true);
+        setLoggedOut(false)
+      }
+    };
+
+    checkAuth();
+  }, []);
+
   const { symbol } = useParams(); // Pobierz symbol z parametrów URL
 
   // Zmodyfikuj dane pobierane z API tak, aby filtrować po symbolu
@@ -89,7 +106,7 @@ const CryptoDetails = () => {
         <Col span={12}>
           <Title level={2}>Crypto Details for {symbol}</Title>
           {stats.map(({ title, icon, value }) => (
-            <Col className="stats-container">
+            <Col key={title} className="stats-container">
               <Col className="coin-value-statistics">
                 <Text>{icon}</Text>
                 <Text>{title}</Text>
@@ -99,21 +116,23 @@ const CryptoDetails = () => {
           ))}
         </Col>
         <Col span={12}>
-        <Card title={`Buy Cryptocurrency (${symbol})`}>
-            <Form {...layout} name="buyCryptoForm" onFinish={onFinish}>
-              <Form.Item label="Amount" name="amount">
-                <Input type="number" placeholder="Enter amount" />
-              </Form.Item>
-              <Form.Item label="Price" name="price">
-                <Input type="number" placeholder="Enter price" />
-              </Form.Item>
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
-                  Buy
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
+          {isLoggedIn && (
+            <Card title={`Buy Cryptocurrency (${symbol})`}>
+              <Form {...layout} name="buyCryptoForm" onFinish={onFinish}>
+                <Form.Item label="Amount" name="amount" rules={[{ required: true, message: 'Please enter the amount' }]}>
+                  <Input type="number" placeholder="Enter amount" />
+                </Form.Item>
+                <Form.Item label="Price" name="price" rules={[{ required: true, message: 'Please enter the price' }]}>
+                  <Input type="number" placeholder="Enter price" />
+                </Form.Item>
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                  <Button type="primary" htmlType="submit">
+                    Buy
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Card>
+          )}
         </Col>
       </Row>
     </div>

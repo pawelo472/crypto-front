@@ -43,8 +43,6 @@ export const binanceApi = createApi({
   }),
 });
 
-
-
 export const {
   useGetServerTimeQuery,
   useGetCryptosQuery,

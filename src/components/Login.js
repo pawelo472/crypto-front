@@ -3,7 +3,7 @@ import { Form, Input, Button, Row, Col, Typography, Card , notification} from 'a
 import { useDispatch } from 'react-redux';
 import { setUser} from './authSlice';
 import { useHistory } from 'react-router-dom';
-import { request, setAuthHeader } from './axios_helper';
+import { request, setApikey, setAuthHeader, setSecretApikey} from './axios_helper';
 
 
 
@@ -110,6 +110,9 @@ import { request, setAuthHeader } from './axios_helper';
           }).then(
           (response) => {
               setAuthHeader(response.data.token);
+              setApikey(response.data.apikey);
+              setSecretApikey(response.data.secretapikey);
+              
               dispatch(setUser(response.data.username));
               openNotification('success', 'Logged in successfully: '+ response.data.username);
               setTimeout(() => {

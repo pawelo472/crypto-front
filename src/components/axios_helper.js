@@ -24,3 +24,19 @@ export const request = (method, url, data) => {
         headers: headers,
         data: data});
 };
+
+export const setApikey = (apikey) => {
+    window.localStorage.setItem('apikey', apikey);
+};
+export const setSecretApikey = (secretapikey) => {
+    window.localStorage.setItem('secretapikey', secretapikey);
+};
+
+
+export const getApikey = () => {
+    return window.localStorage.getItem('apikey');
+};
+
+export const getSecretApikey = () => {
+    return window.localStorage.getItem('secretapikey');
+};

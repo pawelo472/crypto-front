@@ -7,6 +7,9 @@ import reactRouterDom,{Link} from 'react-router-dom';
 const { Title } = Typography;
 
 export const Cryptocurrencies = () => {
+
+  
+
   const { data: cryptosData, refetch: cryptosRefetch } = useGetCryptosQuery();
   const { data: detailsData, refetch: detailsRefetch } = useGetCryptosDetailsQuery();
   const [showHidden, setShowHidden] = useState(false);
@@ -73,7 +76,7 @@ export const Cryptocurrencies = () => {
             const cryptoDetails = allCryptosDetails.find(
               (detail) => detail.symbol === crypto.symbol
             );
-  
+              
             if (cryptoDetails) {
               return (
                 <Col xs={24} sm={12} lg={6} key={crypto.symbol} className="crypto-card">

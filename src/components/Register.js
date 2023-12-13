@@ -62,7 +62,7 @@ function Register() {
             secretapikey: secretapikey,
         }).then(
         (response) => {
-            setAuthHeader(response.data.token);
+            //setAuthHeader(response.data.token);
             dispatch(setUser(response.data.username));
             openNotification('success', 'Registration in successfully!');
             history.push('/login');

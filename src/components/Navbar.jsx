@@ -27,6 +27,8 @@ const Navbar = () => {
     setAuthHeader(null);
     setLoggedIn(false);
     window.localStorage.removeItem('auth_token');
+    window.localStorage.removeItem('apikey');
+    window.localStorage.removeItem('secretapikey');
     history.push('/');
     window.location.reload();
   };

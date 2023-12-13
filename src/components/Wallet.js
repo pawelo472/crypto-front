@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { Input,Typography,Space, Table, Tooltip} from 'antd';
 import axios from "axios";
+import {getApikey,getSecretApikey} from './axios_helper';
 
 import '../App.css';
 const CryptoJS = require('crypto-js');
@@ -15,10 +16,14 @@ const CryptoJS = require('crypto-js');
 
     //const { data:godzina} = useGetServerTimeQuery();
   const time_server=Date.now();
+  const apikey = getApikey();
+  const secretapikey = getSecretApikey();
+ 
     const apiPublic='q1pQetgeBRA3WDaaWVOQM68oYTDWB8mMO9ATg8Lpp74r91KOCHozNeU0RxecULLz';
     const apiSecret= 'cjvelBcWP05hZw6e5UttMzKGqrspYLphfx6Q7LZv0up3sE9QyTjgUk6fvwqcjo36';
-    const signature = CryptoJS.HmacSHA256(`timestamp=${time_server}`, apiSecret).toString(CryptoJS.enc.Hex);
+    const signature = CryptoJS.HmacSHA256(`timestamp=${time_server}`, secretapikey).toString(CryptoJS.enc.Hex);
     axios.defaults.baseURL = 'https://api.binance.com';
+
     
     const request = (method, url, data) => {
     
@@ -26,7 +31,7 @@ const CryptoJS = require('crypto-js');
             method: method,
             url: url,
             headers: {
-              "X-MBX-APIKEY": apiPublic,
+              "X-MBX-APIKEY": apikey,
           },
             data: data,
             params: {
@@ -43,10 +48,7 @@ const CryptoJS = require('crypto-js');
             
             }).then(
             (response) => {
-              //console.log(response.data);
               setWalletData(response.data);
-          // history.push('/');
-          // window.location.reload();
             }).catch(
             (error) => {
                
