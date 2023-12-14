@@ -3,7 +3,7 @@ const CryptoJS = require('crypto-js');
 
 const recvWindow = 60000;
 var time_server=Date.now();
-const time_minus_one_hour = time_server - (10000);
+
 //console.log(time_server);
 // const payload = time_server + "\n" + nonce + "\n" + body + "\n";
 const apiPublic='q1pQetgeBRA3WDaaWVOQM68oYTDWB8mMO9ATg8Lpp74r91KOCHozNeU0RxecULLz';

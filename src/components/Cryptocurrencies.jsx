@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Card,Row, Col, Statistic, Button, Space, Input } from 'antd';
 import { useGetCryptosDetailsQuery, useGetCryptosQuery } from '../services/CryptoApi';
 import '../App.css';
-import reactRouterDom,{Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const { Title } = Typography;
 

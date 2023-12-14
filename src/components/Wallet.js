@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { Input,Typography,Space, Table, Tooltip} from 'antd';
 import axios from "axios";
 import {getApikey,getSecretApikey} from './axios_helper';
+import { notification } from 'antd';
 
 import '../App.css';
 const CryptoJS = require('crypto-js');
@@ -19,8 +20,6 @@ const CryptoJS = require('crypto-js');
   const apikey = getApikey();
   const secretapikey = getSecretApikey();
  
-    const apiPublic='q1pQetgeBRA3WDaaWVOQM68oYTDWB8mMO9ATg8Lpp74r91KOCHozNeU0RxecULLz';
-    const apiSecret= 'cjvelBcWP05hZw6e5UttMzKGqrspYLphfx6Q7LZv0up3sE9QyTjgUk6fvwqcjo36';
     const signature = CryptoJS.HmacSHA256(`timestamp=${time_server}`, secretapikey).toString(CryptoJS.enc.Hex);
     axios.defaults.baseURL = 'https://api.binance.com';
 
@@ -51,7 +50,11 @@ const CryptoJS = require('crypto-js');
               setWalletData(response.data);
             }).catch(
             (error) => {
-               
+              console.log(error);
+              notification.error({
+                message: 'Error Loading',
+                description: 'Please go to another page and return.',
+              });
             }
         );
     };
@@ -60,7 +63,7 @@ const CryptoJS = require('crypto-js');
 //   console.log(wallet);
   
     useEffect(() => {
-      const delay = 2000; // Opóźnienie w milisekundach (1 sekunda w tym przypadku)
+      const delay = 3000; // Opóźnienie w milisekundach (1 sekunda w tym przypadku)
     
       const timeoutId = setTimeout(() => {
         WalletUser();
@@ -108,13 +111,12 @@ const CryptoJS = require('crypto-js');
             <Tooltip title="This is the Free Coins column.">
               <span>Free Coins</span>
             </Tooltip>
-          
           </span>
         ),
         dataIndex: 'free',
         key: 'free',
         sorter: (a, b) => a.free - b.free, // Add this line for sorting
-        //sortOrder: 'descend', // Add this line for default descending order
+        sortOrder: 'descend', // Add this line for default descending order
       },
       {
         title: (
