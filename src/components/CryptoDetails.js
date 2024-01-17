@@ -117,8 +117,6 @@ const CryptoDetails = () => {
     const signature = CryptoJS.HmacSHA256(`symbol=${values.symbol}&side=${values.side}&type=${values.type}&quantity=${values.quantity}&timestamp=${time_server}`, secretapikey).toString(CryptoJS.enc.Hex);
     
     axios.defaults.baseURL = 'https://api.binance.com';
-    
-
     const request = (method, url) => {
       return axios({
           method: method,
@@ -139,6 +137,7 @@ const CryptoDetails = () => {
           },
       });
   };
+  
   const Order = () => {
       request(
           "POST",

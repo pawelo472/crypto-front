@@ -19,8 +19,7 @@ const CryptoJS = require('crypto-js');
   const time_server=Date.now();
   const apikey = getApikey();
   const secretapikey = getSecretApikey();
- 
-    const signature = CryptoJS.HmacSHA256(`timestamp=${time_server}`, secretapikey).toString(CryptoJS.enc.Hex);
+  const signature = CryptoJS.HmacSHA256(`timestamp=${time_server}`, secretapikey).toString(CryptoJS.enc.Hex);
     axios.defaults.baseURL = 'https://api.binance.com';
 
     
